@@ -755,8 +755,8 @@ static void passdss_common_mech_dispose(void *conn_context,
 
     if (text->dh)		DH_free(text->dh);
 
-    HMAC_CTX_cleanup(&text->hmac_send_ctx);
-    HMAC_CTX_cleanup(&text->hmac_recv_ctx);
+    HMAC_CTX_free(&text->hmac_send_ctx);
+    HMAC_CTX_free(&text->hmac_recv_ctx);
 
     EVP_CIPHER_CTX_cleanup(&text->cipher_enc_ctx);
     EVP_CIPHER_CTX_cleanup(&text->cipher_dec_ctx);
