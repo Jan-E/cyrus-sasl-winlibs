@@ -1,8 +1,9 @@
 nmake /F NTMakefile clean
+if exist c:\cmu rd c:\cmu /s /q
 set old_include=%include%
 set include=%include%;\php-sdk\winlibs\cyrus-sasl\win32\include;\php-sdk\winlibs\cyrus-sasl\include
-rem copy \php-sdk\win32build\lib\libsqlite3_a.lib \php-sdk\win32build\lib\libsqlite3.lib /y
-nmake /F NTMakefile NTDLL=yes STATIC=no SQL=SQLITE3 SQLITE_INCLUDES3=\php-sdk\win32build\include SQLITE_LIBPATH3=\php-sdk\win32build\lib SASLDB=0 OPENSSL_INCLUDE=\php-sdk\win32build\include OPENSSL_LIBPATH=\php-sdk\win32build\lib NTLM=1 SRP=0 OTP=1
+copy \php-sdk\win32build\lib\libsqlite3_a.lib \php-sdk\win32build\lib\libsqlite3.lib /y
+nmake /F NTMakefile NTDLL=yes STATIC=no SQL=SQLITE3 SQLITE_INCLUDES3=\php-sdk\win32build\include SQLITE_LIBPATH3=\php-sdk\win32build\lib SASLDB=0 OPENSSL_INCLUDE=\php-sdk\win32build\include OPENSSL_LIBPATH=\php-sdk\win32build\lib NTLM=1 SRP=0 OTP=1 install
 rem copy \php-sdk\win32build\lib\libsqlite3_shared.lib \php-sdk\win32build\lib\libsqlite3.lib /y
 set include=%old_include%
 dir *.dll /s
