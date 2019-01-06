@@ -1,7 +1,7 @@
 !INCLUDE ..\win32\common.mak
 
-sasl_apps=saslpasswd2.exe sasldblistusers2.exe testsuite.exe pluginviewer.exe
-sasl_out=saslpasswd2.pdb sasldblistusers2.pdb testsuite.pdb pluginviewer.pdb
+sasl_apps=saslpasswd2.exe testsuite.exe pluginviewer.exe
+sasl_out=saslpasswd2.pdb testsuite.pdb pluginviewer.pdb
 
 saslpwd_objs = saslpasswd.obj
 sasldblistusers_objs = sasldblistusers.obj
