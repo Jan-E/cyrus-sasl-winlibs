@@ -527,7 +527,7 @@ main(int argc, char *argv[])
 
   if (mech) {
     printf("Forcing use of mechanism %s\n", mech);
-    data = strdup(mech);
+    data = _strdup(mech);
     if (! data)
       osfail();
     len = (unsigned) strlen(data);

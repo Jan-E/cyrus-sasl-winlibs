@@ -66,15 +66,15 @@ auth_sia (
 
     rc = sia_validate_user(0, g_argc, g_argv, 0, login, 0, 0, 0, password);
     if (rc == SIASUCCESS) {
-	return strdup("OK");
+	return _strdup("OK");
     }
     if (rc == SIAFAIL) {
-	return strdup("NO");
+	return _strdup("NO");
     }
     /* Shouldn't happen */
     syslog(LOG_WARNING,
 	   "auth_sia: impossible return (%d) from sia_validate_user", rc);
-    return strdup("NO (possible system error)");
+    return _strdup("NO (possible system error)");
 }
 
 #else /* ! AUTH_SIA */

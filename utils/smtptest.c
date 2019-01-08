@@ -129,7 +129,7 @@ void interaction (int id, const char *prompt,
     
     if (id==SASL_CB_PASS) {
 	fprintf(stderr, "%s: ", prompt);
-	*tresult = strdup(getpass("")); /* leaks! */
+	*tresult = _strdup(getpass("")); /* leaks! */
 	*tlen=   strlen(*tresult);
 	return;
     } else if (id==SASL_CB_USER) {
@@ -363,7 +363,7 @@ int main(int argc, char **argv)
 	    /* we're only looking for AUTH */
 	    if (!strncasecmp(buf + 4, "AUTH ", 5)) {
 		chop(buf);
-		if (!mechlist) mechlist = strdup(buf + 9);
+		if (!mechlist) mechlist = _strdup(buf + 9);
 	    }
 	}
 	if (ISCONT(buf) && ISGOOD(code)) {

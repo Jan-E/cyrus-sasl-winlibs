@@ -213,7 +213,7 @@ int mysasl_negotiate(FILE *in, FILE *out, sasl_conn_t *conn)
     /* generate the capability list */
     if (mech) {
 	dprintf(2, "forcing use of mechanism %s\n", mech);
-	data = strdup(mech);
+	data = _strdup(mech);
 	len = strlen(data);
     } else {
 	int count;

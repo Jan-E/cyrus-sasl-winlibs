@@ -192,12 +192,12 @@ auth_krb4 (
      */
     if (password == NULL) {
 	syslog(LOG_ERR, "auth_krb4: NULL password?");
-	return strdup("NO saslauthd internal error");
+	return _strdup("NO saslauthd internal error");
     }
 
     if (krbtf_name(tf_name, sizeof(tf_name)) != 0) {
       syslog(LOG_ERR, "auth_krb4: could not generate ticket file name");
-      return strdup("NO saslauthd internal error");
+      return _strdup("NO saslauthd internal error");
     }
     krb_set_tkt_string(tf_name);
 
@@ -218,7 +218,7 @@ auth_krb4 (
       if (instance && instance[0]) {
 	/* sysadmin specified a (mandatory) instance */
 	if (strcmp(user_specified + 1, instance)) {
-	  return strdup("NO saslauthd principal name error");
+	  return _strdup("NO saslauthd principal name error");
 	}
 	/* nuke instance from "aname"-- matches what's already in "instance" */
 	*user_specified = '\0';
@@ -242,12 +242,12 @@ auth_krb4 (
 			   realm, 1, password);
 
     if (rc == INTK_BADPW || rc == KDC_PR_UNKNOWN) {
-	return strdup("NO");
+	return _strdup("NO");
     } else if (rc != KSUCCESS) {
       syslog(LOG_ERR, "ERROR: auth_krb4: krb_get_pw_in_tkt: %s",
 	     krb_get_err_text(rc));
 
-      return strdup("NO saslauthd internal error");
+      return _strdup("NO saslauthd internal error");
     }
 
     /* if the TGT wasn't spoofed, it should entitle us to an rcmd ticket... */
@@ -257,7 +257,7 @@ auth_krb4 (
       syslog(LOG_ERR, "ERROR: auth_krb4: krb_get_pw_in_tkt: %s",
 	     krb_get_err_text(rc));
       dest_tkt();
-      return strdup("NO saslauthd internal error");
+      return _strdup("NO saslauthd internal error");
     }
 
     /* .. and that ticket should match our secret host key */
@@ -267,12 +267,12 @@ auth_krb4 (
       syslog(LOG_ERR, "ERROR: auth_krb4: krb_rd_req:%s",
 	     krb_get_err_text(rc));
       dest_tkt();
-      return strdup("NO saslauthd internal error");
+      return _strdup("NO saslauthd internal error");
     }
 
     dest_tkt();
 
-    return strdup("OK");
+    return _strdup("OK");
 }
 
 #else /* ! AUTH_KRB4 */

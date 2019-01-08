@@ -292,7 +292,7 @@ list_installed_server_mechanisms (
 
     if (m->plug != NULL) {
 	if (*list_of_mechs == NULL) {
-	    *list_of_mechs = strdup(m->plug->mech_name);
+	    *list_of_mechs = _strdup(m->plug->mech_name);
 	} else {
 	    /* This is suboptimal, but works */
 	    new_list = malloc (strlen(*list_of_mechs) + strlen(m->plug->mech_name) + 2);
@@ -320,7 +320,7 @@ list_installed_client_mechanisms (
 
     if (m->plug != NULL) {
 	if (*list_of_mechs == NULL) {
-	    *list_of_mechs = strdup(m->plug->mech_name);
+	    *list_of_mechs = _strdup(m->plug->mech_name);
 	} else {
 	    /* This is suboptimal, but works */
 	    new_list = malloc (strlen(*list_of_mechs) + strlen(m->plug->mech_name) + 2);
@@ -347,7 +347,7 @@ list_installed_auxprop_mechanisms (
     }
 
     if (*list_of_mechs == NULL) {
-	*list_of_mechs = strdup(m->name);
+	*list_of_mechs = _strdup(m->name);
     } else {
 	/* This is suboptimal, but works */
 	new_list = malloc (strlen(*list_of_mechs) + strlen(m->name) + 2);

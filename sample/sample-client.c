@@ -316,17 +316,17 @@ prompt(void *context __attribute__((unused)),
     if (! original)
       return SASL_FAIL;
     if (*original)
-      *result = strdup(original);
+      *result = _strdup(original);
     else
-      *result = strdup(defresult);
+      *result = _strdup(defresult);
     memset(original, 0L, strlen(original));
   } else {
     char buf[1024];
     fgets(buf, 1024, stdin);
     if (buf[0]) {
-      *result = strdup(buf);
+      *result = _strdup(buf);
     } else {
-      *result = strdup(defresult);
+      *result = _strdup(defresult);
     }
     memset(buf, 0L, sizeof(buf));
   }

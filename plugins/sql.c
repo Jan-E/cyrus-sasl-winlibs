@@ -398,9 +398,9 @@ static int sqlite_my_callback(void *pArg, int argc __attribute__((unused)),
     if (argv == NULL) {
 	*result = NULL;				/* no record */
     } else if (argv[0] == NULL) {
-	*result = strdup(SQL_NULL_VALUE);	/* NULL IS SQL_NULL_VALUE */
+	*result = _strdup(SQL_NULL_VALUE);	/* NULL IS SQL_NULL_VALUE */
     } else {
-	*result = strdup(argv[0]);
+	*result = _strdup(argv[0]);
     }
 
     return /*ABORT*/1;
@@ -533,9 +533,9 @@ static int sqlite3_my_callback(void *pArg, int argc __attribute__((unused)),
     if (argv == NULL) {
 	*result = NULL;				/* no record */
     } else if (argv[0] == NULL) {
-	*result = strdup(SQL_NULL_VALUE);	/* NULL IS SQL_NULL_VALUE */
+	*result = _strdup(SQL_NULL_VALUE);	/* NULL IS SQL_NULL_VALUE */
     } else {
-	*result = strdup(argv[0]);
+	*result = _strdup(argv[0]);
     }
 
     return 0;

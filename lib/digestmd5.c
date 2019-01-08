@@ -759,7 +759,7 @@ static char *quote (char *str)
     }
 
     if (num_to_escape == 0) {
-	return (strdup (str));
+	return (_strdup(str));
     }
 
     result = malloc (strlen(str) + num_to_escape + 1);

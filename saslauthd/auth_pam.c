@@ -73,7 +73,7 @@ typedef struct {
     pam_handle_t *pamh;			/* pointer to PAM handle */
 } pam_appdata;
 
-# define RETURN(x) return strdup(x)
+# define RETURN(x) return _strdup(x)
 
 
 /* FUNCTION: saslauthd_pam_conv */
@@ -118,7 +118,7 @@ saslauthd_pam_conv (
 	 * match, assume it to be a request for the login.
 	 */
 	case PAM_PROMPT_ECHO_OFF:	/* password */
-	    my_resp[i].resp = strdup(my_appdata->password);
+	    my_resp[i].resp = _strdup(my_appdata->password);
 	    if (my_resp[i].resp == NULL) {
 		syslog(LOG_DEBUG, "DEBUG: saslauthd_pam_conv: strdup failed");
 		goto ret_error;
@@ -139,7 +139,7 @@ saslauthd_pam_conv (
 	    }
 
 	    if (strcmp(msg[i]->msg, login_prompt) == 0) {
-		my_resp[i].resp = strdup(my_appdata->login);
+		my_resp[i].resp = _strdup(my_appdata->login);
 		my_resp[i].resp_retcode = PAM_SUCCESS;
 	    } else {			/* ignore */
 		syslog(LOG_DEBUG, "DEBUG: saslauthd_pam_conv: unknown prompt "

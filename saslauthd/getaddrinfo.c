@@ -211,7 +211,7 @@ getaddrinfo(const char *hostname, const char *servname,
 	}
 	if (hints && hints->ai_flags & AI_CANONNAME && *res) {
 	    /* NOT sasl_strdup for compatibility */
-	    if (((*res)->ai_canonname = strdup(hp->h_name)) == NULL) {
+	    if (((*res)->ai_canonname = _strdup(hp->h_name)) == NULL) {
 		freeaddrinfo(*res);
 		return EAI_MEMORY;
 	    }

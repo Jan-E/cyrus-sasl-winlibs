@@ -196,35 +196,35 @@ auth_krb5 (
 
     if (!user || !password) {
 	syslog(LOG_ERR, "auth_krb5: NULL password or username?");
-	return strdup("NO saslauthd internal NULL password or username");
+	return _strdup("NO saslauthd internal NULL password or username");
     }
 
     if (krb5_init_context(&context)) {
 	syslog(LOG_ERR, "auth_krb5: krb5_init_context");
-	return strdup("NO saslauthd internal krb5_init_context error");
+	return _strdup("NO saslauthd internal krb5_init_context error");
     }
 
     if (form_principal_name(user, service, realm, principalbuf, sizeof (principalbuf))) {
 	syslog(LOG_ERR, "auth_krb5: form_principal_name");
-	return strdup("NO saslauthd principal name error");
+	return _strdup("NO saslauthd principal name error");
     }
 
     if (krb5_parse_name (context, principalbuf, &auth_user)) {
 	krb5_free_context(context);
 	syslog(LOG_ERR, "auth_krb5: krb5_parse_name");
-	return strdup("NO saslauthd internal krb5_parse_name error");
+	return _strdup("NO saslauthd internal krb5_parse_name error");
     }
 
     if (krbtf_name(tfname, sizeof (tfname)) != 0) {
 	syslog(LOG_ERR, "auth_krb5: could not generate ccache name");
-	return strdup("NO saslauthd internal error");
+	return _strdup("NO saslauthd internal error");
     }
 
     if (krb5_cc_resolve(context, tfname, &ccache)) {
 	krb5_free_principal(context, auth_user);
 	krb5_free_context(context);
 	syslog(LOG_ERR, "auth_krb5: krb5_cc_resolve");
-	return strdup("NO saslauthd internal error");
+	return _strdup("NO saslauthd internal error");
     }
 
     if (keytabname) {
@@ -233,7 +233,7 @@ auth_krb5 (
 	    krb5_cc_destroy(context, ccache);
 	    krb5_free_context(context);
 	    syslog(LOG_ERR, "auth_krb5: krb5_kt_resolve");
-	    return strdup("NO saslauthd internal error");
+	    return _strdup("NO saslauthd internal error");
 	}
     }
     
@@ -245,9 +245,9 @@ auth_krb5 (
     krb5_verify_opt_set_service(&opt, verify_principal);
     
     if (krb5_verify_user_opt(context, auth_user, password, &opt)) {
-	result = strdup("NO krb5_verify_user_opt failed");
+	result = _strdup("NO krb5_verify_user_opt failed");
     } else {
-        result = strdup("OK");
+        result = _strdup("OK");
     }
     
     krb5_free_principal(context, auth_user);
@@ -383,42 +383,42 @@ auth_krb5 (
 
     if (!user|| !password) {
 	syslog(LOG_ERR, "auth_krb5: NULL password or username?");
-	return strdup("NO saslauthd internal error");
+	return _strdup("NO saslauthd internal error");
     }
 
     if (krb5_init_context(&context)) {
 	syslog(LOG_ERR, "auth_krb5: krb5_init_context");
-	return strdup("NO saslauthd internal error");
+	return _strdup("NO saslauthd internal error");
     }
 
     if (form_principal_name(user, service, realm, principalbuf, sizeof (principalbuf))) {
 	syslog(LOG_ERR, "auth_krb5: form_principal_name");
-	return strdup("NO saslauthd principal name error");
+	return _strdup("NO saslauthd principal name error");
     }
 
     if (krb5_parse_name (context, principalbuf, &auth_user)) {
 	krb5_free_context(context);
 	syslog(LOG_ERR, "auth_krb5: krb5_parse_name");
-	return strdup("NO saslauthd internal error");
+	return _strdup("NO saslauthd internal error");
     }
     
     if (krbtf_name(tfname, sizeof (tfname)) != 0) {
 	syslog(LOG_ERR, "auth_krb5: could not generate ticket file name");
-	return strdup("NO saslauthd internal error");
+	return _strdup("NO saslauthd internal error");
     }
 
     if (krb5_cc_resolve(context, tfname, &ccache)) {
 	krb5_free_principal(context, auth_user);
 	krb5_free_context(context);
 	syslog(LOG_ERR, "auth_krb5: krb5_cc_resolve");
-	return strdup("NO saslauthd internal error");
+	return _strdup("NO saslauthd internal error");
     }
     
     if (krb5_cc_initialize (context, ccache, auth_user)) {
 	krb5_free_principal(context, auth_user);
 	krb5_free_context(context);
 	syslog(LOG_ERR, "auth_krb5: krb5_cc_initialize");
-	return strdup("NO saslauthd internal error");
+	return _strdup("NO saslauthd internal error");
     }
     
     krb5_get_init_creds_opt_init(&opts);
@@ -431,7 +431,7 @@ auth_krb5 (
 	krb5_free_principal(context, auth_user);
 	krb5_free_context(context);
 	syslog(LOG_ERR, "auth_krb5: krb5_get_init_creds_password: %d", code);
-	return strdup("NO saslauthd internal error");
+	return _strdup("NO saslauthd internal error");
     }
     
     /* at this point we should have a TGT. Let's make sure it is valid */
@@ -440,12 +440,12 @@ auth_krb5 (
 	krb5_cc_destroy(context, ccache);
 	krb5_free_context(context);
 	syslog(LOG_ERR, "auth_krb5: krb5_cc_store_cred");
-	return strdup("NO saslauthd internal error");
+	return _strdup("NO saslauthd internal error");
     }
     
     if (!k5support_verify_tgt(context, ccache)) {
 	syslog(LOG_ERR, "auth_krb5: k5support_verify_tgt");
-	result = strdup("NO saslauthd internal error");
+	result = _strdup("NO saslauthd internal error");
 	goto fini;
     }
     
@@ -453,7 +453,7 @@ auth_krb5 (
      * fall through -- user is valid beyond this point  
      */
     
-    result = strdup("OK");
+    result = _strdup("OK");
  fini:
 /* destroy any tickets we had */
     krb5_free_cred_contents(context, &creds);

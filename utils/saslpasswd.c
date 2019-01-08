@@ -102,7 +102,7 @@ char * _get_error_message (
 	NULL 
     );
 
-    return_value = strdup (lpMsgBuf);
+    return_value = _strdup (lpMsgBuf);
 
     LocalFree( lpMsgBuf );
     return (return_value);

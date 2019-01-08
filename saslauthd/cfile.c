@@ -143,8 +143,8 @@ cfile cfile_read(const char *filename, char *complaint, int complaint_len)
 	    }
 	}
 
-	if (!(cf->kvlist[cf->n_kv].key = strdup(key)) ||
-	    !(cf->kvlist[cf->n_kv].value = strdup(p))) {
+	if (!(cf->kvlist[cf->n_kv].key = _strdup(key)) ||
+	    !(cf->kvlist[cf->n_kv].value = _strdup(p))) {
 	      if (complaint)
 	        snprintf(complaint, complaint_len, "cfile_read: no memory");
 	      cf->n_kv++; /* maybe one strdup() worked */

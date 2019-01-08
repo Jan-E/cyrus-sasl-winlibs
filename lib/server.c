@@ -2360,7 +2360,7 @@ int sasl_server_plugin_info (
 		m = m->next;
 	    }
 	} else {
-            mech_list = strdup(c_mech_list);
+            mech_list = _strdup(c_mech_list);
 
 	    cur_mech = mech_list;
 

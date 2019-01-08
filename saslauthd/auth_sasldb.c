@@ -47,7 +47,7 @@
 #include <pwd.h>
 /* END PUBLIC DEPENDENCIES */
 
-#define RETURN(x) return strdup(x)
+#define RETURN(x) return _strdup(x)
 
 
 #ifdef AUTH_SASLDB

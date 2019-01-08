@@ -128,7 +128,7 @@ auth_shadow (
 #  endif /* _REENTRANT */
     /* END VARIABLES */
 
-#  define RETURN(x) return strdup(x)
+#  define RETURN(x) return _strdup(x)
 
     /*
      * "Magic" password field entries for SunOS/SysV
@@ -274,7 +274,7 @@ auth_shadow (
     struct userpw *upw;				/* return from getuserpw() */
     /* END VARIABLES */
 
-#  define RETURN(x) { endpwdb(); return strdup(x); }
+#  define RETURN(x) { endpwdb(); return _strdup(x); }
 
     if (setpwdb(S_READ) == -1) {
 	syslog(LOG_ERR, "setpwdb: %m");
