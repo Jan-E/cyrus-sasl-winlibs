@@ -11,14 +11,18 @@ pluginviewer_objs = pluginviewer.obj
 all_objs = $(saslpwd_objs) $(sasldblistusers_objs) $(testsuite_objs) $(pluginviewer_objs)
 all_out = $(sasl_apps) $(sasl_out)
 
-DB_FLAGS = /I $(DB_INCLUDE) /I "..\sasldb"
-CPPFLAGS = /I "..\win32\include" /I "." /I "..\include" $(DB_FLAGS) /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL"
+DB_FLAGS = /I $(DB_INCLUDE) /I "..\sasldb" /D "SASL_DB_PATH=\"$(SASL_DB_PATH)\""
+CPPFLAGS = /I "..\win32\include" /I "." /I "..\include" $(DB_FLAGS) /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "_CRT_SECURE_NO_WARNINGS" /D "_SCL_SECURE_NO_WARNINGS"
 CPPFLAGS = $(CPPFLAGS) /DNEED_GETOPT
 
 
 DB_LIBS=/libpath:$(DB_LIBPATH) $(DB_LIB)
 SASL_LIB=/libpath:"..\lib" libsasl.lib
+!IF "$(STATIC_PLUGIN)" == "yes"
+SASL_DB_LIB=
+!ELSE
 SASL_DB_LIB=/libpath:"..\plugins" saslSASLDB.lib
+!ENDIF
 
 # EXTRA_LIBS is automatically included into LINK32EXE_FLAGS/LINK32DLL_FLAGS
 EXTRA_LIBS=$(SASL_LIB) 

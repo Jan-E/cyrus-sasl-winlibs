@@ -36,12 +36,15 @@
 #endif
 
 /* PUBLIC DEPENDENCIES */
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#undef PACKAGE
+#endif
 #include "mechanisms.h"
 
 #include <string.h>
 #include <stdlib.h>
 #include <pwd.h>
-#include <config.h>
 /* END PUBLIC DEPENDENCIES */
 
 #define RETURN(x) return strdup(x)

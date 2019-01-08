@@ -41,6 +41,9 @@
  * AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
+#define _XOPEN_SOURCE 500
+
 #include <config.h>
 #include <limits.h>
 #include <stdio.h>
@@ -50,7 +53,8 @@
 # include <winsock2.h>
 __declspec(dllimport) char *optarg;
 __declspec(dllimport) int optind;
-__declspec(dllimport) int getsubopt(char **optionp, const char * const *tokens, char **valuep);
+__declspec(dllimport) int getsubopt(char **optionp, char * const *tokens, char **valuep);
+#define HAVE_GETSUBOPT
 #else  /* WIN32 */
 # include <netinet/in.h>
 #endif /* WIN32 */
@@ -84,7 +88,7 @@ int main(void)
 #endif
 
 #ifndef HAVE_GETSUBOPT
-int getsubopt(char **optionp, const char * const *tokens, char **valuep);
+int getsubopt(char **optionp, char * const *tokens, char **valuep);
 #endif
 
 static const char
@@ -404,7 +408,7 @@ samp_recv()
     fail("Line must start with 'S: '");
   }
 
-  len = strlen(buf);
+  len = (unsigned) strlen(buf);
   if (len > 0 && buf[len-1] == '\n') {
       buf[len-1] = '\0';
   }
@@ -476,7 +480,7 @@ main(int argc, char *argv[])
     case 'b':
       options = optarg;
       while (*options != '\0')
-	switch(getsubopt(&options, (const char * const *)bit_subopts, &value)) {
+	switch(getsubopt(&options, (char * const *)bit_subopts, &value)) {
 	case OPT_MIN:
 	  if (! value)
 	    errflag = 1;
@@ -506,7 +510,7 @@ main(int argc, char *argv[])
     case 'e':
       options = optarg;
       while (*options != '\0')
-	switch(getsubopt(&options, (const char * const *)ext_subopts, &value)) {
+	switch(getsubopt(&options,  (char * const *)ext_subopts, &value)) {
 	case OPT_EXT_SSF:
 	  if (! value)
 	    errflag = 1;
@@ -532,7 +536,7 @@ main(int argc, char *argv[])
     case 'f':
       options = optarg;
       while (*options != '\0') {
-	switch(getsubopt(&options, (const char * const *)flag_subopts, &value)) {
+	switch(getsubopt(&options, (char * const *)flag_subopts, &value)) {
 	case OPT_NOPLAIN:
 	  secprops.security_flags |= SASL_SEC_NOPLAINTEXT;
 	  break;
@@ -562,7 +566,7 @@ main(int argc, char *argv[])
     case 'i':
       options = optarg;
       while (*options != '\0')
-	switch(getsubopt(&options, (const char * const *)ip_subopts, &value)) {
+	switch(getsubopt(&options, (char * const *)ip_subopts, &value)) {
 	case OPT_IP_LOCAL:
 	  if (! value)
 	    errflag = 1;

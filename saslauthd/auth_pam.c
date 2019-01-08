@@ -43,12 +43,13 @@
  */
 
 /* PUBLIC DEPENDENCIES */
-#include "mechanisms.h"
-#include <stdio.h>
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
+#undef PACKAGE
 #endif
+
+#include "mechanisms.h"
+#include <stdio.h>
 
 #ifdef AUTH_PAM
 

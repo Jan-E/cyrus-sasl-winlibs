@@ -132,6 +132,7 @@
 #define SASL_VERSION_FULL ((SASL_VERSION_MAJOR << 16) |\
       (SASL_VERSION_MINOR << 8) | SASL_VERSION_STEP)
 
+#include <stdlib.h>
 #include "prop.h"
 
 /*************

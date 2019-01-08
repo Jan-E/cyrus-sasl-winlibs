@@ -56,7 +56,7 @@
 #include <sasl.h>
 #include "saslint.h"
 
-#ifndef PIC
+#if !defined(PIC) || defined(STATIC_PLUGIN)
 #include <saslplug.h>
 #include "staticopen.h"
 #endif
@@ -407,7 +407,7 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
     DIR *dp;
     struct dirent *dir;
 #endif
-#ifndef PIC
+#if !defined(PIC) || defined(STATIC_PLUGIN)
     add_plugin_t *add_plugin;
     _sasl_plug_type type;
     _sasl_plug_rec *p;
@@ -422,7 +422,7 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
 	|| ! verifyfile_cb->proc)
 	return SASL_BADPARAM;
 
-#ifndef PIC
+#if !defined(PIC) || defined(STATIC_PLUGIN)
     /* do all the static plugins first */
 
     for(cur_ep = entrypoints; cur_ep->entryname; cur_ep++) {
@@ -449,7 +449,7 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
 	    	result = add_plugin(p->name, p->plug);
 	}
     }
-#endif /* !PIC */
+#endif /* !PIC || STATIC_PLUGIN */
 
 /* only do the following if:
  * 

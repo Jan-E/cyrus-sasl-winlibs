@@ -42,6 +42,9 @@
  * AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
+#define _XOPEN_SOURCE 500
+
 #include <config.h>
 #include <limits.h>
 #include <stdio.h>
@@ -51,9 +54,11 @@
 # include <winsock.h>
 __declspec(dllimport) char *optarg;
 __declspec(dllimport) int optind;
-__declspec(dllimport) int getsubopt(char **optionp, const char * const *tokens, char **valuep);
+__declspec(dllimport) int getsubopt(char **optionp, char * const *tokens, char **valuep);
+#define HAVE_GETSUBOPT
 #else  /* WIN32 */
 # include <netinet/in.h>
+# include <strings.h>
 #endif /* WIN32 */
 #include <sasl.h>
 #include <saslutil.h>
@@ -226,7 +231,7 @@ plugview_sasl_getopt (
 
         if (len != NULL) {
     /* This might be NULL, which means "all mechanisms" */
-	    *len = sasl_mech ? strlen(sasl_mech) : 0;
+	    *len = sasl_mech ? (unsigned) strlen(sasl_mech) : 0;
         }
         return (SASL_OK);
     } 

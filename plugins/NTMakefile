@@ -99,7 +99,7 @@ saslSRP_sources = srp.c srp_init.c $(common_sources)
 saslSRP_objs = srp.obj srp_init.obj $(common_objs)
 saslSRP_out = saslSRP.dll saslSRP.exp saslSRP.lib
 
-saslOTP_sources = otp.c otp_init.c $(common_sources)
+saslOTP_sources = otp.c otp_init.c otp.h $(common_sources)
 saslOTP_objs = otp.obj otp_init.obj $(common_objs)
 saslOTP_out = saslOTP.dll saslOTP.exp saslOTP.lib
 
