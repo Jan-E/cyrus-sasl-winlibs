@@ -63,9 +63,8 @@
 int srp_server_plug_init(const sasl_utils_t *utils,
 			 int maxversion,
 			 int *out_version,
-			 const sasl_server_plug_t **pluglist,
-			 int *plugcount,
-			 const char *plugname __attribute__((unused)))
+			 sasl_server_plug_t **pluglist,
+			 int *plugcount)
 {
 	return SASL_NOMECH;
 }
@@ -73,9 +72,8 @@ int srp_server_plug_init(const sasl_utils_t *utils,
 int srp_client_plug_init(const sasl_utils_t *utils __attribute__((unused)),
 			 int maxversion,
 			 int *out_version,
-			 const sasl_client_plug_t **pluglist,
-			 int *plugcount,
-			 const char *plugname __attribute__((unused)))
+			 sasl_client_plug_t **pluglist,
+			 int *plugcount)
 {
 	return SASL_NOMECH;
 }
@@ -85,7 +83,7 @@ int gssapiv2_server_plug_init(
     const sasl_utils_t *utils __attribute__((unused)),
 #else
     const sasl_utils_t *utils,
-#endif 
+#endif
     int maxversion,
     int *out_version,
     sasl_server_plug_t **pluglist,
@@ -107,7 +105,7 @@ int sasldb_auxprop_plug_init(const sasl_utils_t *utils,
                              int max_version,
                              int *out_version,
                              sasl_auxprop_plug_t **plug,
-                             const char *plugname __attribute__((unused))) 
+                             const char *plugname)
 {
 	return SASL_NOMECH;
 }
