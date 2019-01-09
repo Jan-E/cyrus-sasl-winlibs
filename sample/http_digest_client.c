@@ -34,12 +34,12 @@ void interact(sasl_interact_t *ilist)
 	switch (ilist->id) {
 
 	case SASL_CB_AUTHNAME:			/* auth as current uid */
-	    ilist->result = strdup(getpwuid(getuid())->pw_name);
+	    ilist->result = _strdup(getpwuid(getuid())->pw_name);
 	    break;
 
 	case SASL_CB_PASS:			/* prompt for password */
 	    printf("%s: ", ilist->prompt);
-	    ilist->result = strdup(getpass(""));
+	    ilist->result = _strdup(getpass(""));
 	    break;
 	}
 	ilist->len = strlen(ilist->result);

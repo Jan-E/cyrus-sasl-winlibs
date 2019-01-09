@@ -50,6 +50,12 @@
 #include <sasl.h>
 #include "saslint.h"
 
+#ifdef STATIC_PLUGIN
+#include <saslplug.h>
+#include "staticopen.h"
+#include "../plugins/missing_inits.h"
+#endif
+
 #define DLL_SUFFIX	".dll"
 #define DLL_MASK	"*" DLL_SUFFIX
 #define DLL_MASK_LEN	5
@@ -168,19 +174,27 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
 		       const sasl_callback_t *verifyfile_cb)
 {
     int result;
+    const add_plugin_list_t *cur_ep;
+
+#ifdef STATIC_PLUGIN /* STATIC_PLUGIN 2 */
+    add_plugin_t *add_plugin;
+    _sasl_plug_type type;
+    _sasl_plug_rec *p;
+#else /* STATIC_PLUGIN 2 */
     char cur_dir[PATH_MAX], full_name[PATH_MAX+2], prefix[PATH_MAX+2];
 				/* 1 for '\\' 1 for trailing '\0' */
+
     char * pattern;
     char c;
     int pos;
     const char *path=NULL;
     int position;
-    const add_plugin_list_t *cur_ep;
     struct stat statbuf;		/* filesystem entry information */
     intptr_t fhandle;			/* file handle for _findnext function */
     struct _finddata_t finddata;	/* data returned by _findnext() */
     size_t prefix_len;
-
+#endif /* STATIC_PLUGIN 2 */
+    
     if (! entrypoints
 	|| ! getpath_cb
 	|| getpath_cb->id != SASL_CB_GETPATH
@@ -190,6 +204,33 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
 	|| ! verifyfile_cb->proc)
 	return SASL_BADPARAM;
 
+#ifdef STATIC_PLUGIN /* STATIC_PLUGIN 3 */
+    /* do all the static plugins first */
+    for(cur_ep = entrypoints; cur_ep->entryname; cur_ep++) {
+
+	/* What type of plugin are we looking for? */
+	if(!strcmp(cur_ep->entryname, "sasl_server_plug_init")) {
+	    type = SERVER;
+	    add_plugin = (add_plugin_t *)sasl_server_add_plugin;
+	} else if (!strcmp(cur_ep->entryname, "sasl_client_plug_init")) {
+	    type = CLIENT;
+	    add_plugin = (add_plugin_t *)sasl_client_add_plugin;
+	} else if (!strcmp(cur_ep->entryname, "sasl_auxprop_plug_init")) {
+	    type = AUXPROP;
+	    add_plugin = (add_plugin_t *)sasl_auxprop_add_plugin;
+	} else if (!strcmp(cur_ep->entryname, "sasl_canonuser_init")) {
+	    type = CANONUSER;
+	    add_plugin = (add_plugin_t *)sasl_canonuser_add_plugin;
+	} else {
+	    /* What are we looking for then? */
+	    return SASL_FAIL;
+	}
+	for (p=_sasl_static_plugins; p->type; p++) {
+	    if(type == p->type)
+	    	result = add_plugin(p->name, p->plug);
+	}
+    }
+#else /* STATIC_PLUGIN 3 */
     /* get the path to the plugins */
     result = ((sasl_getpath_t *)(getpath_cb->proc))(getpath_cb->context,
 						    &path);
@@ -307,6 +348,7 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
 	_findclose (fhandle);
 
     } while ((c!='=') && (c!=0));
+#endif /* STATIC_PLUGIN 3 */
 
     return SASL_OK;
 }

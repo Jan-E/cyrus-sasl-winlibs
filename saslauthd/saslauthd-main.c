@@ -179,7 +179,7 @@ int main(int argc, char **argv) {
 				    break;
 				}
 
-				auth_mech_name = strdup(optarg);
+				auth_mech_name = _strdup(optarg);
 				if (!auth_mech_name) {
 				    logger(L_ERR, L_FUNC,
 					   "could not allocate memory");
@@ -404,14 +404,14 @@ char *do_auth(const char *_login, const char *password, const char *service, con
 	}
 
 	if (cache_lookup(login, realm, service, password, &lkup_result) == CACHE_OK) {	
-		response = strdup("OK");
+		response = _strdup("OK");
 		cached = 1;
 	} else {
 		response = auth_mech->authenticate(login, password, service, realm);
 
 		if (response == NULL) {
 			logger(L_ERR, L_FUNC, "internal mechanism failure: %s", auth_mech->name);
-			response = strdup("NO internal mechanism failure");
+			response = _strdup("NO internal mechanism failure");
 		}
 	}
 
@@ -438,7 +438,7 @@ char *do_auth(const char *_login, const char *password, const char *service, con
 	}
 
 	logger(L_ERR, L_FUNC, "mechanism returned unknown response: %s", auth_mech->name);
-	response = strdup("NO internal mechanism failure");
+	response = _strdup("NO internal mechanism failure");
 
 	return response;
 }
@@ -492,7 +492,7 @@ void set_mech_option(const char *option) {
 	free(mech_option);
 	mech_option = NULL;
 
-	if ((mech_option = strdup(option)) == NULL) {
+	if ((mech_option = _strdup(option)) == NULL) {
 		logger(L_ERR, L_FUNC, "could not allocate memory");
 		exit(1);
 	}
@@ -514,7 +514,7 @@ void set_run_path(const char *path) {
 	free(run_path);
 	run_path = NULL;
 
-	if ((run_path = strdup(path)) == NULL) {
+	if ((run_path = _strdup(path)) == NULL) {
 		logger(L_ERR, L_FUNC, "could not allocate memory");
 		exit(1);
 	}

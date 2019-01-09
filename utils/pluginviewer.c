@@ -42,6 +42,9 @@
  * AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
+#define _XOPEN_SOURCE 500
+
 #include <config.h>
 #include <limits.h>
 #include <stdio.h>
@@ -51,9 +54,11 @@
 # include <winsock.h>
 __declspec(dllimport) char *optarg;
 __declspec(dllimport) int optind;
-__declspec(dllimport) int getsubopt(char **optionp, const char * const *tokens, char **valuep);
+__declspec(dllimport) int getsubopt(char **optionp, char * const *tokens, char **valuep);
+#define HAVE_GETSUBOPT
 #else  /* WIN32 */
 # include <netinet/in.h>
+# include <strings.h>
 #endif /* WIN32 */
 #include <sasl.h>
 #include <saslutil.h>
@@ -226,7 +231,7 @@ plugview_sasl_getopt (
 
         if (len != NULL) {
     /* This might be NULL, which means "all mechanisms" */
-	    *len = sasl_mech ? strlen(sasl_mech) : 0;
+	    *len = sasl_mech ? (unsigned) strlen(sasl_mech) : 0;
         }
         return (SASL_OK);
     } 
@@ -287,7 +292,7 @@ list_installed_server_mechanisms (
 
     if (m->plug != NULL) {
 	if (*list_of_mechs == NULL) {
-	    *list_of_mechs = strdup(m->plug->mech_name);
+	    *list_of_mechs = _strdup(m->plug->mech_name);
 	} else {
 	    /* This is suboptimal, but works */
 	    new_list = malloc (strlen(*list_of_mechs) + strlen(m->plug->mech_name) + 2);
@@ -315,7 +320,7 @@ list_installed_client_mechanisms (
 
     if (m->plug != NULL) {
 	if (*list_of_mechs == NULL) {
-	    *list_of_mechs = strdup(m->plug->mech_name);
+	    *list_of_mechs = _strdup(m->plug->mech_name);
 	} else {
 	    /* This is suboptimal, but works */
 	    new_list = malloc (strlen(*list_of_mechs) + strlen(m->plug->mech_name) + 2);
@@ -342,7 +347,7 @@ list_installed_auxprop_mechanisms (
     }
 
     if (*list_of_mechs == NULL) {
-	*list_of_mechs = strdup(m->name);
+	*list_of_mechs = _strdup(m->name);
     } else {
 	/* This is suboptimal, but works */
 	new_list = malloc (strlen(*list_of_mechs) + strlen(m->name) + 2);

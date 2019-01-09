@@ -952,9 +952,9 @@ gssapi_server_mech_authneg(context_t *text,
     }
 
     if (equal) {
-	text->authid = strdup(name_without_realm.value);
+	text->authid = _strdup(name_without_realm.value);
     } else {
-	text->authid = strdup(name_token.value);
+	text->authid = _strdup(name_token.value);
     }
 
     if (text->authid == NULL) {

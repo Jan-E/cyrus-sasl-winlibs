@@ -373,7 +373,7 @@ static char *build_sasl_response(
     *(http_response_string-1) = '\0';  /* replace space after code with 0 */
 
     if (!strcmp(http_response_code, HTTP_STATUS_SUCCESS)) {
-        return strdup("OK remote authentication successful");
+        return _strdup("OK remote authentication successful");
     }
     if (!strcmp(http_response_code, HTTP_STATUS_REFUSE)) {
         /* return the HTTP response string as the SASL response */
@@ -389,7 +389,7 @@ static char *build_sasl_response(
     logger(L_INFO, "auth_httpform", "unexpected response to auth request: %s %s",
            http_response_code, http_response_string);
 
-    return strdup(RESP_UNEXPECTED);
+    return _strdup(RESP_UNEXPECTED);
 }
 
 /* END FUNCTION: build_sasl_response */
@@ -539,7 +539,7 @@ auth_httpform (
             strlcpy(pbuf, "unknown", sizeof(pbuf));
         syslog(LOG_WARNING, "auth_httpform: couldn't connect to %s/%s",
                ai->ai_canonname ? ai->ai_canonname : r_host, pbuf);
-        return strdup("NO [ALERT] Couldn't contact remote authentication server");
+        return _strdup("NO [ALERT] Couldn't contact remote authentication server");
     }
 
     /* CLAIM: we now have a TCP connection to the remote HTTP server */
@@ -556,7 +556,7 @@ auth_httpform (
     if (req == NULL) {
         close(s);
         syslog(LOG_WARNING, "auth_httpform: create_post_data == NULL");
-        return strdup(RESP_IERROR);
+        return _strdup(RESP_IERROR);
     }
 
     postlen = snprintf(postbuf, RESP_LEN-1,
@@ -585,7 +585,7 @@ auth_httpform (
         free(req); 
         memset(postbuf, 0, postlen);
         close(s);
-        return strdup(RESP_IERROR);
+        return _strdup(RESP_IERROR);
     }
 
     /* don't need these any longer */
@@ -602,7 +602,7 @@ auth_httpform (
 
     if (rc == -1) {
         syslog(LOG_WARNING, "auth_httpform: read (response): %m");
-        return strdup(RESP_IERROR);
+        return _strdup(RESP_IERROR);
     }
 
     if (flags & VERBOSE) {

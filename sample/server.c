@@ -213,7 +213,7 @@ int mysasl_negotiate(FILE *in, FILE *out, sasl_conn_t *conn)
     /* generate the capability list */
     if (mech) {
 	dprintf(2, "forcing use of mechanism %s\n", mech);
-	data = strdup(mech);
+	data = _strdup(mech);
 	len = strlen(data);
     } else {
 	int count;
@@ -389,7 +389,7 @@ int main(int argc, char *argv[])
 	char hbuf[NI_MAXHOST], pbuf[NI_MAXSERV];
 	struct sockaddr_storage local_ip, remote_ip;
 	int niflags, error;
-	int salen;
+	socklen_t salen;
 	int nfds, fd = -1;
 	FILE *in, *out;
 	fd_set readfds;

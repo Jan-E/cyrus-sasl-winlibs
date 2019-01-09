@@ -489,7 +489,7 @@ static int lak_tokenize_domains(
 	if (d == NULL || n < 1 || n > 9)
 		return LAK_FAIL;
 
-	s = strdup(d);
+	s = _strdup(d);
 	if (s == NULL)
 		return LAK_NOMEM;
 
@@ -1633,13 +1633,13 @@ static int lak_result_add(
 
 	lres->next = NULL;
 
-	lres->attribute = strdup(attr);
+	lres->attribute = _strdup(attr);
 	if (lres->attribute == NULL) {
 		lak_result_free(lres);
 		return LAK_NOMEM;
 	}
 
-	lres->value = strdup(val);
+	lres->value = _strdup(val);
 	if (lres->value == NULL) {
 		lak_result_free(lres);
 		return LAK_NOMEM;

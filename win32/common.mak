@@ -5,17 +5,70 @@ SASL_VERSION_MINOR=1
 SASL_VERSION_STEP=27
 
 !IF "$(STATIC)" == ""
-STATIC=yes
+STATIC=no
 !ENDIF
 
-# Uncomment the following line, if you want to use Visual Studio 6
-#VCVER=6
+!IF "$(STATIC_PLUGIN)" == ""
+STATIC_PLUGIN=no
+!ENDIF
 
+# Detect Visual Studio Version
+# Reference: http://mateusz.loskot.net/2009/03/29/detecting-visual-c-version-in-nmake-makefile/
+!IF "$(_NMAKE_VER)" == ""
+MSVC_VER = 4.0
+VCVER = 4
+!ERROR *** Prehistoric version of Visual C++
+!ELSEIF "$(_NMAKE_VER)" == "162"
+MSVC_VER = 5.0
+VCVER = 5
+!ERROR *** Prehistoric version of Visual C++
+!ELSEIF "$(_NMAKE_VER)" == "6.00.8168.0"
+MSVC_VER = 6.0
+VCVER = 6
+MSC_VER = 1200
+!ERROR *** Prehistoric version of Visual C++
+!ELSEIF "$(_NMAKE_VER)" == "7.00.9466"
+MSVC_VER = 7.0
+VCVER = 7
+MSC_VER = 1300
+!ELSEIF "$(_NMAKE_VER)" == "7.10.3077"
+MSVC_VER = 7.1
+VCVER = 7
+MSC_VER = 1310
+!ELSEIF "$(_NMAKE_VER)" == "8.00.50727.42"
+MSVC_VER = 8.0
+VCVER = 8
+MSC_VER = 1400
+!ELSEIF "$(_NMAKE_VER)" == "8.00.50727.762"
+MSVC_VER = 8.0
+VCVER = 8
+MSC_VER = 1400
+!ELSEIF "$(_NMAKE_VER)" == "9.00.21022.08"
+MSVC_VER = 9.0
+VCVER = 9
+MSC_VER = 1500
+!ELSEIF "$(_NMAKE_VER)" == "9.00.30729.01"
+MSVC_VER = 9.0
+VCVER = 9
+MSC_VER = 1500
+!ELSE
+MSVC_VER = 0.0
+VCVER = 0
+MSC_VER = 0
+!ENDIF
+!MESSAGE *** Using Microsoft NMAKE version $(_NMAKE_VER)
+!MESSAGE *** Using Microsoft Visual C++ version $(MSVC_VER)
+
+
+!IF "$(VCVER)" == "6" || "$(VCVER)" == "7"
 # Use in Visual Studio 6 & 7:
-#EXCEPTHANDLING=/GX
-
-# Use in Visual Studio 8:
+EXCEPTHANDLING=/GX
+RUNTIMEERRORCHECK=/GZ
+!ELSE
+# Use in Visual Studio 8 & 9:
 EXCEPTHANDLING=/EHsc
+RUNTIMEERRORCHECK=/RTC1
+!ENDIF
 
 # Define compiler/linker/etc.
 
@@ -61,21 +114,21 @@ CFG=Release
 !IF "$(DB_LIB)" == ""
 DB_LIB=libdb41s.lib
 !IF "$(VERBOSE)" != "0"
-!MESSAGE Defaulting SleepyCat library name to $(DB_LIB).
+!MESSAGE Defaulting BerkeleyDB to $(DB_LIB).
 !ENDIF
 !ENDIF
 
 !IF "$(DB_INCLUDE)" == ""
 DB_INCLUDE=c:\work\isode\db\build_win32
 !IF "$(VERBOSE)" != "0"
-!MESSAGE Defaulting SleepyCat include path to $(DB_INCLUDE).
+!MESSAGE Defaulting BerkeleyDB include path to $(DB_INCLUDE).
 !ENDIF
 !ENDIF
 
 !IF "$(DB_LIBPATH)" == ""
 DB_LIBPATH=c:\work\isode\db\build_win32\Release_static
 !IF "$(VERBOSE)" != "0"
-!MESSAGE Defaulting SleepyCat library path to $(DB_LIBPATH).
+!MESSAGE Defaulting BerkeleyDB library path to $(DB_LIBPATH).
 !ENDIF
 !ENDIF
 
@@ -161,6 +214,10 @@ LDAP_INCLUDE = c:\work\open_source\openldap\openldap-head\ldap\include
 !IF "$(VERBOSE)" != "0"
 !MESSAGE Defaulting LDAP include path to $(LDAP_INCLUDE).
 !ENDIF
+!ENDIF
+
+!IF "$(SASL_DB_PATH)" == ""
+SASL_DB_PATH="C:\\CMU\\SASLDB"
 !ENDIF
 
 !IF "$(OS)" == "Windows_NT"

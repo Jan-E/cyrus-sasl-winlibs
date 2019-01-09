@@ -237,7 +237,7 @@ int mysasl_negotiate(FILE *in, FILE *out, sasl_conn_t *conn)
     char buf[8192];
     const char *data;
     const char *chosenmech;
-    int len;
+    unsigned int len;
     int r, c;
 
     /* get the capability list */
@@ -339,7 +339,7 @@ int main(int argc, char *argv[])
     sasl_conn_t *conn;
     FILE *in, *out;
     int fd;
-    int salen;
+    unsigned int salen;
     int niflags, error;
     struct sockaddr_storage local_ip, remote_ip;
     int cb_flag = 0;

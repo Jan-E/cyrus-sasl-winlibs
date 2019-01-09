@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'm':
-				file = strdup(optarg);
+				file = _strdup(optarg);
 				break;
 
 			default:

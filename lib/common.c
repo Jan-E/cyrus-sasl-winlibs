@@ -454,7 +454,7 @@ int sasl_encodev(sasl_conn_t *conn,
             
             /* Fit as many bytes in last_invec, so that we have conn->oparams.maxoutbuf
                bytes in total. */
-            last_invec.iov_len = conn->oparams.maxoutbuf - total_size;
+            last_invec.iov_len = (long) (conn->oparams.maxoutbuf - total_size);
             /* Point to the first byte of the current record. */
             last_invec.iov_base = invec[i].iov_base;
 
@@ -520,7 +520,7 @@ int sasl_encodev(sasl_conn_t *conn,
             next_buf = (char *) last_invec.iov_base + last_invec.iov_len;
             /* Note - remainder_len is how many bytes left to be encoded in
                the current IOV slot. */
-            remainder_len = (total_size + invec[i].iov_len) - conn->oparams.maxoutbuf;
+            remainder_len = (unsigned) ((total_size + invec[i].iov_len) - conn->oparams.maxoutbuf);
 
             /* Skip all consumed IOV records */
             invec += i + 1;

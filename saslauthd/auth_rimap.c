@@ -361,7 +361,7 @@ auth_rimap (
 	    strlcpy(pbuf, "unknown", sizeof(pbuf));
 	syslog(LOG_WARNING, "auth_rimap: couldn't connect to %s/%s",
 	       ai->ai_canonname ? ai->ai_canonname : r_host, pbuf);
-	return strdup("NO [ALERT] Couldn't contact remote authentication server");
+	return _strdup("NO [ALERT] Couldn't contact remote authentication server");
     }
 
     /* CLAIM: we now have a TCP connection to the remote IMAP server */
@@ -405,7 +405,7 @@ auth_rimap (
     if (rc == -1) {
 	syslog(LOG_WARNING, "auth_rimap: read (banner): %m");
 	(void) close(s);
-	return strdup("NO [ALERT] error synchronizing with remote authentication server");
+	return _strdup("NO [ALERT] error synchronizing with remote authentication server");
     }
     rbuf[rc] = '\0';			/* tie off response */
     c = strpbrk(rbuf, "\r\n");
@@ -415,18 +415,18 @@ auth_rimap (
 
     if (!strncmp(rbuf, "* NO", sizeof("* NO")-1)) {
 	(void) close(s);
-	return strdup(RESP_UNAVAILABLE);
+	return _strdup(RESP_UNAVAILABLE);
     }
     if (!strncmp(rbuf, "* BYE", sizeof("* BYE")-1)) {
 	(void) close(s);
-	return strdup(RESP_UNAVAILABLE);
+	return _strdup(RESP_UNAVAILABLE);
     }
     if (strncmp(rbuf, "* OK", sizeof("* OK")-1)) {
 	syslog(LOG_WARNING,
 	       "auth_rimap: unexpected response during initial handshake: %s",
 	       rbuf);
 	(void) close(s);
-	return strdup(RESP_UNEXPECTED);
+	return _strdup(RESP_UNEXPECTED);
     }
     
     /* build the LOGIN command */
@@ -440,7 +440,7 @@ auth_rimap (
 	}
 	(void) close(s);
 	syslog(LOG_WARNING, "auth_rimap: qstring(login) == NULL");
-	return strdup(RESP_IERROR);
+	return _strdup(RESP_IERROR);
     }
     if (qpass == NULL) {
 	if (qlogin != NULL) {
@@ -449,7 +449,7 @@ auth_rimap (
 	}
 	(void) close(s);
 	syslog(LOG_WARNING, "auth_rimap: qstring(password) == NULL");
-	return strdup(RESP_IERROR);
+	return _strdup(RESP_IERROR);
     }
 
     iov[0].iov_base = LOGIN_CMD;
@@ -477,7 +477,7 @@ auth_rimap (
 	memset(qpass, 0, strlen(qpass));
 	free(qpass);
 	(void)close(s);
-	return strdup(RESP_IERROR);
+	return _strdup(RESP_IERROR);
     }
 
     /* don't need these any longer */
@@ -518,7 +518,7 @@ auth_rimap (
     (void) close(s);			/* we're done with the remote */
     if (rc == -1) {
 	syslog(LOG_WARNING, "auth_rimap: read (response): %m");
-	return strdup(RESP_IERROR);
+	return _strdup(RESP_IERROR);
     }
 
     rbuf[rc] = '\0';			/* tie off response */
@@ -531,17 +531,17 @@ auth_rimap (
 	if (flags & VERBOSE) {
 	    syslog(LOG_DEBUG, "auth_rimap: [%s] %s", login, rbuf);
 	}
-	return strdup("OK remote authentication successful");
+	return _strdup("OK remote authentication successful");
     }
     if (!strncmp(rbuf, TAG " NO", sizeof(TAG " NO")-1)) {
 	if (flags & VERBOSE) {
 	    syslog(LOG_DEBUG, "auth_rimap: [%s] %s", login, rbuf);
 	}
-	return strdup("NO remote server rejected your credentials");
+	return _strdup("NO remote server rejected your credentials");
     }
     syslog(LOG_WARNING, "auth_rimap: unexpected response to auth request: %s",
 	   rbuf);
-    return strdup(RESP_UNEXPECTED);
+    return _strdup(RESP_UNEXPECTED);
     
 }
 
