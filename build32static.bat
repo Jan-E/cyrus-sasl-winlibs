@@ -10,6 +10,7 @@ set include=%old_include%
 xcopy plugins\sasl*.pdb c:\cmu\bin\sasl2\ /y
 dir *.dll /s
 dir *.exe /s
+if exist plugins\RC* del plugins\RC*
 
 goto end
 

@@ -8,6 +8,7 @@ rem copy \php-sdk\win32build\lib\libsqlite3_shared.lib \php-sdk\win32build\lib\l
 set include=%old_include%
 dir *.dll /s
 dir *.exe /s
+if exist plugins\RC* del plugins\RC*
 
 goto end
  Directory of C:\php-sdk\winlibs\cyrus-sasl\lib
