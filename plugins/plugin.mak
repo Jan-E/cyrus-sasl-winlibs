@@ -162,7 +162,7 @@ db_none.c: ..\sasldb\db_none.c
 
 !IF "$(NTLM)" == "1" || "$(SRP)" == "1" || "$(OTP)" == "1"
 OPENSSL_FLAGS= /I $(OPENSSL_INCLUDE)
-OPENSSL_LIBS=/libpath:$(OPENSSL_LIBPATH) libcrypto.lib libssl.lib
+OPENSSL_LIBS=/libpath:$(OPENSSL_LIBPATH) ssleay32.lib libeay32.lib
 !ELSE 
 OPENSSL_FLAGS=
 OPENSSL_LIBS=

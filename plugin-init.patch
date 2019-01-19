@@ -106,7 +106,7 @@ index 9930789..3efe770 100644
 +EXTRA_FLAGS=$(EXTRA_FLAGS) $(DB_FLAGS) $(OPENSSL_FLAGS) $(GSS_FLAGS) $(SRP_FLAGS) $(SQL_FLAGS) $(DIGEST_FLAGS) $(CRAM_FLAGS) $(SCRAM_FLAGS) $(LDAP_FLAGS)
  CPPFLAGS = /I "..\win32\include" /I "." /I "..\include" $(EXTRA_FLAGS) /D "WIN32" /D "_WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL"
  
- OPENSSL_LIBS=/libpath:$(OPENSSL_LIBPATH) libssl.lib libcrypto.lib
+ OPENSSL_LIBS=/libpath:$(OPENSSL_LIBPATH) ssleay32.lib libeay32.lib
 @@ -324,7 +326,7 @@ BEGIN
              VALUE "FileDescription", "CMU SASL $(@B) plugin\0"
              VALUE "FileVersion", "$(SASL_VERSION_MAJOR).$(SASL_VERSION_MINOR).$(SASL_VERSION_STEP).0\0"
