@@ -193,7 +193,11 @@ CLEAN :
 
 $(generated_rc):
 	copy <<temp.rc $@
+#if defined(_MSC_VER) && _MSC_VER >= 1900
 #include "afxres.h"
+#else
+#include "windows.h"
+#endif
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION $(SASL_VERSION_MAJOR),$(SASL_VERSION_MINOR),$(SASL_VERSION_STEP),0

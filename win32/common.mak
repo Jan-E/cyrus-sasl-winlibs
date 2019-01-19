@@ -51,6 +51,14 @@ MSC_VER = 1500
 MSVC_VER = 9.0
 VCVER = 9
 MSC_VER = 1500
+!ELSEIF "$(_NMAKE_VER)" == "11.00.61030.0"
+MSVC_VER = 11.0
+VCVER = 11
+MSC_VER = 1700
+!ELSEIF "$(_NMAKE_VER)" == "14.00.24210.0"
+MSVC_VER = 14.0
+VCVER = 14
+MSC_VER = 1900
 !ELSE
 MSVC_VER = 0.0
 VCVER = 0
@@ -244,13 +252,23 @@ CODEGEN=/MD
 ENABLE_WIN64_WARNINGS=
 !ENDIF
 
+!IF "$(VCVER)" == "9" || "$(VCVER)" == "11"
+# Use in Visual Studio 9 & 11:
+CPP_PROJ= $(CODEGEN) /W3 $(EXCEPTHANDLING) /O2 $(ENABLE_WIN64_WARNINGS) /Zi /D "NDEBUG" $(CPPFLAGS) /c
+!ELSE
 CPP_PROJ= /guard:cf /Zc:inline /GF /GL /Gw $(CODEGEN) /W3 $(EXCEPTHANDLING) /Ox $(ENABLE_WIN64_WARNINGS) /Zi /D "NDEBUG" /D _CRT_SECURE_NO_DEPRECATE=1 $(CPPFLAGS) /FD /c
+!ENDIF
 
 incremental=no
 
 # This use to contain /machine:I386. This breaks cross compiling to Windows 64.
 # It doesn't seem that the /machine option is needed anyway.
+!IF "$(VCVER)" == "9" || "$(VCVER)" == "11"
+# Use in Visual Studio 9 & 11:
+LINK32_FLAGS=/debug
+!ELSE
 LINK32_FLAGS=/debug /GUARD:CF /opt:ref,icf /NXCOMPAT /DYNAMICBASE
+!ENDIF
 
 !ELSEIF  "$(CFG)" == "Debug"
 

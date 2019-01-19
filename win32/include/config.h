@@ -118,6 +118,9 @@ typedef int		    intptr_t;
  */
 #define strcasecmp   _stricmp
 #define strncasecmp  _strnicmp
+#if defined(_MSC_VER) && _MSC_VER < 1900
+#define snprintf     _snprintf
+#endif
 
 #define MAXHOSTNAMELEN 1024
 
