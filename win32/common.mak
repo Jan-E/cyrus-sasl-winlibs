@@ -217,7 +217,7 @@ LDAP_INCLUDE = c:\work\open_source\openldap\openldap-head\ldap\include
 !ENDIF
 
 !IF "$(SASL_DB_PATH)" == ""
-SASL_DB_PATH="C:\\CMU\\SASLDB"
+SASL_DB_PATH="sasldb2"
 !ENDIF
 
 !IF "$(OS)" == "Windows_NT"

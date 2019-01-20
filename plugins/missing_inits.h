@@ -100,13 +100,3 @@ int gssapiv2_client_plug_init(const sasl_utils_t *utils __attribute__((unused)),
 {
 	return SASL_NOMECH;
 }
-
-int sasldb_auxprop_plug_init(const sasl_utils_t *utils,
-                             int max_version,
-                             int *out_version,
-                             sasl_auxprop_plug_t **plug,
-                             const char *plugname)
-{
-	return SASL_NOMECH;
-}
-
