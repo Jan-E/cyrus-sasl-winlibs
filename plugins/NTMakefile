@@ -56,8 +56,8 @@ saslSQL_objs = sql.obj sql_init.obj $(common_objs)
 # saslSQL_out is an agregation of all generated files for all SQL plugins
 saslSQL_out = saslSQLITE.dll saslSQLITE.exp saslSQLITE.lib
 
-saslLDAPDB_sources = ldapdb.c $(common_sources)
-saslLDAPDB_objs = ldapdb.obj $(common_objs)
+saslLDAPDB_sources = ldapdb.c ldapdb_init.c $(common_sources)
+saslLDAPDB_objs = ldapdb.obj ldapdb_init.obj $(common_objs)
 saslLDAPDB_out = saslLDAPDB.dll saslLDAPDB.exp saslLDAPDB.lib
 
 # Auxprop Plugin

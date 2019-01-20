@@ -113,8 +113,8 @@ typedef int		    intptr_t;
  */
 #define HAVE_MEMCPY 1
 
-#define PLUGINDIR "C:\\CMU\\bin\\sasl2"
-#define CONFIGDIR "C:\\CMU\\bin\\sasl2"
+#define PLUGINDIR "sasl2"
+#define CONFIGDIR "sasl2"
 
 /* Windows calls these functions something else
  */

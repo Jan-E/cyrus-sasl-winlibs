@@ -612,22 +612,6 @@ main(int argc, char *argv[])
         saslfail(result, "Initializing server side of libsasl", NULL);
     }
 
-    if (list_all_plugins || list_auxprop_plugins) {
-	list_of_auxprop_mechs = NULL;
-
-	auxprop_plugin_info (NULL,  /* list all auxprop mechanisms */
-			    &list_installed_auxprop_mechanisms,
-			    (void *) &list_of_auxprop_mechs);
-
-	printf ("Installed and properly configured auxprop mechanisms are:\n%s\n",
-		(list_of_auxprop_mechs == NULL) ? "<none>" : list_of_auxprop_mechs);
-
-	free (list_of_auxprop_mechs);
-
-        
-        auxprop_plugin_info (auxprop_mech, NULL, NULL);
-    }
-
     /* TODO: add listing of canonicalization plugins, if needed. */
 
     if (list_all_plugins || list_server_auth_plugins) {
@@ -789,6 +773,21 @@ main(int argc, char *argv[])
         } else {
 	    printf ("No client side SASL mechanisms matching your criteria found\n");
         }
+    }
+
+    if (list_all_plugins || list_auxprop_plugins) {
+	list_of_auxprop_mechs = NULL;
+
+	auxprop_plugin_info (NULL,  /* list all auxprop mechanisms */
+			    &list_installed_auxprop_mechanisms,
+			    (void *) &list_of_auxprop_mechs);
+
+	printf ("Installed and properly configured auxprop mechanisms are:\n%s\n",
+		(list_of_auxprop_mechs == NULL) ? "<none>" : list_of_auxprop_mechs);
+
+	free (list_of_auxprop_mechs);
+
+	auxprop_plugin_info (auxprop_mech, NULL, NULL);
     }
 
     free_conn();
