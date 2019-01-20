@@ -84,7 +84,8 @@ typedef int		    intptr_t;
 
 /* : This should probably be replaced with a call to a function
    : that gets the proper value from Registry */
-#define SASL_DB_PATH "c:\\CMU\\sasldb2"
+/* now this is set automatically as compiler flag in plugin.mak */
+/* #define SASL_DB_PATH "c:\\CMU\\sasldb2" */
 
 /* what db package are we using? */
 /* #undef SASL_GDBM */

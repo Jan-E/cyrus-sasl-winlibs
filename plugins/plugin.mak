@@ -133,8 +133,8 @@ ldapdb.c: ..\plugins\ldapdb.c
 sql.c: ..\plugins\sql.c
 	copy ..\plugins\sql.c .
 
-sasldb.c: ..\plugins\sasldb.c ..\sasldb\sasldb.h
-	copy ..\plugins\sasldb.c .
+#sasldb.c: ..\plugins\sasldb.c ..\sasldb\sasldb.h
+#	copy ..\plugins\sasldb.c .
 
 #sasldb.h: ..\sasldb\sasldb.h
 #	copy ..\sasldb\sasldb.h .
