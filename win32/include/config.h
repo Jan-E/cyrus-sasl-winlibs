@@ -105,6 +105,8 @@ typedef int		    intptr_t;
 #define STATIC_SASLDB 1
 #define STATIC_SRP 1
 
+#define STATIC_SQL 1
+
 /* ------------------------------------------------------------ */
 
 /* Things that are fetched via autoconf under Unix
