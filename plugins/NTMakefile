@@ -97,6 +97,7 @@ install: $(PLUGINS)
 
 all-recursive : $(PLUGINS)
 
+LINK32DLL_FLAGS = /NODEFAULTLIB:LIBCMT $(LINK32DLL_FLAGS)
 
 #Add /pdb: option?
 

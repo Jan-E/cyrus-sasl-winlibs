@@ -275,7 +275,7 @@ incremental=yes
 
 # This use to contain /machine:I386. This breaks cross compiling to Windows 64.
 # It doesn't seem that the /machine option is needed anyway.
-LINK32_FLAGS=/debug /pdbtype:sept /NODEFAULTLIB:library
+LINK32_FLAGS=/NODEFAULTLIB:LIBCMT /debug /pdbtype:sept
 
 !ENDIF
 
