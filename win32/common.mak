@@ -79,7 +79,11 @@ LINK32EXE=$(LINK32)
 # It seems that -lib must be the first parameter
 LINK32LIB=link.exe /lib /nologo
 
+!IF "$(NTDLL)" == "no"
+SYS_LIBS=ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib
+!ELSE
 SYS_LIBS=ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib ntdll.lib
+!ENDIF
 
 !IF "$(BITS)" == "64"
 SYS_LIBS=$(SYS_LIBS) bufferoverflowU.lib
@@ -271,7 +275,7 @@ incremental=yes
 
 # This use to contain /machine:I386. This breaks cross compiling to Windows 64.
 # It doesn't seem that the /machine option is needed anyway.
-LINK32_FLAGS=/debug /pdbtype:sept
+LINK32_FLAGS=/debug /pdbtype:sept /NODEFAULTLIB:library
 
 !ENDIF
 

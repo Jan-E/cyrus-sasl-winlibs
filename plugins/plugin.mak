@@ -178,7 +178,7 @@ GSS_LIBS=
 
 !IF "$(LDAP)" == "1"
 LDAP_FLAGS = /I $(LDAP_INCLUDE)
-LDAP_LIBS = $(LDAP_LIB_BASE)\olber32_a.lib $(LDAP_LIB_BASE)\oldap32_a.lib ..\lib\libsasl.lib
+LDAP_LIBS = $(LDAP_LIB_BASE)\olber32_a.lib $(LDAP_LIB_BASE)\oldap32_a.lib
 !ENDIF
 
 !IF "$(SQL)" == "SQLITE"
