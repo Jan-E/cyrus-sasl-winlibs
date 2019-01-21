@@ -162,6 +162,7 @@ saslLDAPDB.dll: $(saslLDAPDB_objs) saslLDAPDB.res
 
 CLEAN :
 	-@erase $(all_objs)
+	-@erase "..\lib\*.obj"
 	-@erase "*.idb"
 	-@erase "*.pdb"
 	-@erase "*.manifest"
