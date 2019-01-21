@@ -79,6 +79,7 @@ CLEAN :
 	-@erase "*.pdb"
 	-@erase "*.manifest"
 	-@erase $(all_out)
+	-@erase "..\utils\*.exe"
 
 .c.obj::
    $(CPP) @<<
